@@ -118,11 +118,11 @@ password:
 
 facebook:
 #  # your facebook app client id
-  clientId: 1803117723320978
+  clientId: "1803117723320978"
   # your facebook app client secret
   #  clientSecret:
     secretKeyRef:
-      key: 4672dcad9c000caf5f339e90d173cf49
+      key: "4672dcad9c000caf5f339e90d173cf49"
       name: hasura-secrets
 
 # Configuration for github provider
