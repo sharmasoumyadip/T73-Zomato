@@ -30,7 +30,7 @@ defaultProviders:
     enabled: "false"
     defaultRoles: []
   facebook:
-    enabled: "false"
+    enabled: "true"
     defaultRoles: []
   github:
     enabled: "false"
@@ -115,16 +115,16 @@ password:
 #  # list of the all the client ids generated for your Google app
 #  clientIds: ["xxxxxx", "yyyyyy"]
 #
-# Configuration for facebook provider
-#facebook:
+
+facebook:
 #  # your facebook app client id
-#  clientId: xxxxxxxxx
-#  # your facebook app client secret
-#  clientSecret:
-#    secretKeyRef:
-#      key: auth.facebook.client_secret
-#      name: hasura-secrets
-#
+  clientId: 1803117723320978
+  # your facebook app client secret
+  #  clientSecret:
+    secretKeyRef:
+      key: 4672dcad9c000caf5f339e90d173cf49
+      name: hasura-secrets
+
 # Configuration for github provider
 #github:
 #  # your github app client id
