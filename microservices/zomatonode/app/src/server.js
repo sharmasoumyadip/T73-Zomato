@@ -23,8 +23,11 @@ app.use(session({
 app.use(cookieParser());
 
 app.set('port', 8000);
-
+app.get('/', function (req,res) {
+    res.send(req.cookies + "   Hello")
+});
 app.use('/signup', require('./routes/signup-routes'));
+app.use('/login', require('./routes/login-routes'));
 
 app.listen(app.get('port'), function () {
     console.log("APP RUNNING ON " + app.get('port'));

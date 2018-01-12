@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y build-essential python
 #Install deps
 RUN mkdir /app
 COPY app/package.json /app/package.json
+COPY app/package-lock.json /app/package-lock.json
 RUN cd /app && npm install
 
 #Add all source code
