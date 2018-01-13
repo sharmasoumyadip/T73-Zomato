@@ -1,11 +1,24 @@
 var express = require('express');
 var passport = require('passport');
-var facebook = require('passport-facebook');
+var facebook = require('passport-facebook').Strategy;
 var Promise = require('bluebird');
 var request = require('request-promise');
 var router = express.Router();
 var app = express();
+var configFB = require('./../config/facebook-strategy')
+passport.use(new facebook(
+    //configFB('https://zomatonode.bodybuilder89.hasura-app.io/signup/facebook'),
+    configFB('http://localhost:8000/signup/facebook'),
+    function (accessToken, refreshToken, profile, cb) {
+        return cb(null, [profile,accessToken]);
+    }));
+passport.serializeUser(function(user, cb) {
+    cb(null, user);
+});
 
+passport.deserializeUser(function(obj, cb) {
+    cb(null, obj);
+});
 
 
 router.route("/username").post(function (req, res) {
@@ -29,5 +42,27 @@ router.route("/username").post(function (req, res) {
             }
         });
 });
+router.route('/fbsignup').get(function (req, res) {
+    var form="<form method= 'post' action='/signup/fbauth'><button type='submit'>FB SIGNUP </button></form>";
+    res.send(form);
+});
 
+router.route('/fbauth').post(
+    passport.authenticate('facebook')
+);
+
+router.route('/facebook').get(
+    passport.authenticate('facebook', { failureRedirect: '/fbauth' }),
+    function(req, res) {
+        var token = req.user[1];
+        var options = require('./../config/signup/username-facebook');
+        var requestOptions = options(token);
+        request(requestOptions)
+            .then(function (body) {
+                res.send(body);
+            })
+            .catch(function (err) {
+                res.send(err);
+            });
+    });
 module.exports = router;
