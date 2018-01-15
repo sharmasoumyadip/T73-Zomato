@@ -20,12 +20,12 @@ email:
           key: notify.mandrill.key
           name: hasura-secrets
     smtp:
-      hostname: "smtp.live.com"
+      hostname: "mail.smtp2go.com"
       password:
         secretKeyRef:
           key: notify.smtp.password
           name: hasura-secrets
-      port: 25
+      port: 8465
       username:
         secretKeyRef:
           key: notify.smtp.username
