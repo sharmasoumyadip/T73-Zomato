@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65cf6478-923d-4a42-bded-3de4f80af46a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/microservices/zomatonode/k8s.yaml" afterPath="$PROJECT_DIR$/microservices/zomatonode/k8s.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/microservices/zomatonode/app/src/routes/signup-routes.js" afterPath="$PROJECT_DIR$/microservices/zomatonode/app/src/routes/signup-routes.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,8 +30,8 @@
       <file leaf-file-name="signup-routes.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/microservices/zomatonode/app/src/routes/signup-routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="53" column="29" lean-forward="false" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+            <state relative-caret-position="-323">
+              <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -88,9 +87,9 @@
         <option value="$PROJECT_DIR$/microservices/zomatonode/app/src/.env" />
         <option value="$PROJECT_DIR$/microservices/zomatonode/app/src/config/facebook-strategy.js" />
         <option value="$PROJECT_DIR$/microservices/zomatonode/app/src/config/signup/username-facebook.js" />
-        <option value="$PROJECT_DIR$/microservices/zomatonode/app/src/routes/signup-routes.js" />
         <option value="$PROJECT_DIR$/microservices/zomatonode/app/src/.gitignore" />
         <option value="$PROJECT_DIR$/microservices/zomatonode/k8s.yaml" />
+        <option value="$PROJECT_DIR$/microservices/zomatonode/app/src/routes/signup-routes.js" />
       </list>
     </option>
   </component>
@@ -453,12 +452,12 @@
       <workItem from="1515776394778" duration="1493000" />
       <workItem from="1515832224130" duration="403000" />
       <workItem from="1515836294065" duration="10958000" />
-      <workItem from="1516032155758" duration="369000" />
+      <workItem from="1516032155758" duration="683000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23660000" />
+    <option name="totallyTimeSpent" value="23974000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -836,8 +835,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/microservices/zomatonode/app/src/routes/signup-routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="53" column="29" lean-forward="false" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+        <state relative-caret-position="-323">
+          <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
           <folding />
         </state>
       </provider>

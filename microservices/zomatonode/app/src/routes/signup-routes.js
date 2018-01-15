@@ -7,8 +7,8 @@ var router = express.Router();
 var app = express();
 var configFB = require('./../config/facebook-strategy')
 passport.use(new facebook(
-    //configFB('https://zomatonode.bodybuilder89.hasura-app.io/signup/facebook'),
-    configFB('http://localhost:8000/signup/facebook'),
+    configFB('https://zomatonode.bodybuilder89.hasura-app.io/signup/facebook'),
+    // configFB('http://localhost:8000/signup/facebook'),
     function (accessToken, refreshToken, profile, cb) {
         return cb(null, [profile,accessToken]);
     }));
