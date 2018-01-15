@@ -25,7 +25,7 @@ email:
         secretKeyRef:
           key: notify.smtp.password
           name: hasura-secrets
-      port: 465
+      port: 587
       username:
         secretKeyRef:
           key: notify.smtp.username
