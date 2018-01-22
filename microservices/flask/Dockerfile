@@ -12,11 +12,11 @@ COPY src/requirements.txt /tmp/requirements.txt
 RUN pip3 install -r /tmp/requirements.txt
 
 # set /app as working directory
-WORKDIR /app
+WORKDIR /flask
 
 # copy current directory to /app
-COPY . /app
+COPY . /flask
 
 # run gunicorn server
 # port is configured through the gunicorn config file
-CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:app"]
+CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:flask"]
