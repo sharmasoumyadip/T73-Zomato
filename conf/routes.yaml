@@ -183,3 +183,14 @@ zomato:
     upstreamServicePort: 80
 
 
+
+flask:
+  /:
+    corsPolicy: allow_all
+    upstreamService:
+      name: flask
+      namespace: '{{ cluster.metadata.namespaces.user }}'
+    upstreamServicePath: /
+    upstreamServicePort: 80
+
+
