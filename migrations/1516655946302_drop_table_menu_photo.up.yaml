@@ -1,0 +1,3 @@
+- args:
+    sql: DROP TABLE "menu_photo"
+  type: run_sql

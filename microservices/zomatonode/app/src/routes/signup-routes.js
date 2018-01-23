@@ -7,8 +7,8 @@ var router = express.Router();
 var app = express();
 var configFB = require('./../config/facebook-strategy')
 passport.use(new facebook(
-    configFB('https://zomatonode.bodybuilder89.hasura-app.io/signup/facebook'),
-    // configFB('http://localhost:8000/signup/facebook'),
+    // configFB('https://zomatonode.bodybuilder89.hasura-app.io/signup/facebook'),
+    configFB('http://localhost:8000/signup/facebook'),
     function (accessToken, refreshToken, profile, cb) {
         return cb(null, [profile,accessToken]);
     }));
@@ -48,14 +48,14 @@ router.route('/fbsignup').get(function (req, res) {
 });
 
 router.route('/fbauth').post(
-    passport.authenticate('facebook')
+    passport.authenticate('facebook', { scope: ['email']})
 );
 
 router.route('/facebook').get(
-    passport.authenticate('facebook', { failureRedirect: '/fbauth' }),
+    passport.authenticate('facebook',{ scope: ['email']}),
     function(req, res) {
         var token = req.user[1];
-        var options = require('./../config/signup/username-facebook');
+       /* var options = require('./../config/signup/username-facebook');
         var requestOptions = options(token);
         request(requestOptions)
             .then(function (body) {
@@ -63,6 +63,7 @@ router.route('/facebook').get(
             })
             .catch(function (err) {
                 res.send(err);
-            });
+            }); */
+       res.send(token);
     });
 module.exports = router;

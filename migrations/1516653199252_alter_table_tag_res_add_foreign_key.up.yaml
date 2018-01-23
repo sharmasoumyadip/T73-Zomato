@@ -1,0 +1,4 @@
+- args:
+    sql: ALTER TABLE "tag_res" ADD FOREIGN KEY ("tag_name") REFERENCES "tag_name"
+      ("tag")
+  type: run_sql

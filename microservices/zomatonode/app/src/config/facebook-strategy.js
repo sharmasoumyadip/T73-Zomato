@@ -3,7 +3,8 @@ module.exports = function (redirectUrl) {
     var configFB = {
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLINET_SECRET,
-        callbackURL: redirectUrl
+        callbackURL: redirectUrl,
+        profileFields: ['id', 'emails']
     }
     return configFB;
 }

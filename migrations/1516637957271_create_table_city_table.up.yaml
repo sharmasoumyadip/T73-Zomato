@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "city_table"("city" text NOT NULL, "city_lat" numeric NOT NULL,
+      "city_long" numeric NOT NULL, PRIMARY KEY ("city") )
+  type: run_sql
+- args:
+    name: city_table
+  type: add_existing_table_or_view
