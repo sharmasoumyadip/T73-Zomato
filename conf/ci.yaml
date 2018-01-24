@@ -30,9 +30,3 @@ remotes:
         dockerfile: microservices/zomato/Dockerfile
         path: microservices/zomato
 
-
-    '{{ cluster.metadata.namespaces.user }}.flask':
-      app:
-        dockerfile: microservices/flask/Dockerfile
-        path: microservices/flask
-
