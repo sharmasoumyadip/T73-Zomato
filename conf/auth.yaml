@@ -27,7 +27,7 @@ defaultProviders:
     enabled: "true"
     defaultRoles: []
   google:
-    enabled: "false"
+    enabled: "true"
     defaultRoles: []
   facebook:
     enabled: "true"
@@ -111,9 +111,9 @@ password:
 # Below fields are all optional
 #
 # Configuration for google provider
-#google:
+google:
 #  # list of the all the client ids generated for your Google app
-#  clientIds: ["xxxxxx", "yyyyyy"]
+  clientIds: ["1082417445863-c6i4l6qpfuo0d9v4i3br7vn0ae7og3tq.apps.googleusercontent.com"]
 #
 # Configuration for facebook provider
 facebook:
