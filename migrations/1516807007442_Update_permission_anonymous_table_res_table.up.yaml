@@ -1,0 +1,13 @@
+- args:
+    permission:
+      columns:
+      - res_id
+      - res_name
+      - city
+      - res_lat
+      - res_long
+      - res_add
+      filter: {}
+    role: anonymous
+    table: res_table
+  type: create_select_permission

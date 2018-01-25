@@ -1,0 +1,7 @@
+- args:
+    permission:
+      columns: []
+      filter: {}
+    role: anonymous
+    table: city_table
+  type: create_select_permission
