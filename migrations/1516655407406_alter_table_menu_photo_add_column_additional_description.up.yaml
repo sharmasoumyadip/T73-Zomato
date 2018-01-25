@@ -1,3 +1,0 @@
-- args:
-    sql: ALTER TABLE "menu_photo" ADD COLUMN "additional_description" text NUll
-  type: run_sql

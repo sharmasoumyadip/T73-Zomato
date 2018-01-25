@@ -1,3 +1,0 @@
-- args:
-    sql: ALTER TABLE "res_table" ADD COLUMN "res_add" text NUll
-  type: run_sql

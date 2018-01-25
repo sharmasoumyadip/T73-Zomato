@@ -2,10 +2,8 @@ var express = require('express');
 var Promise = require('bluebird');
 var request = require('request-promise');
 var router = express.Router();
-var distance = require('google-distance');
-require('dotenv').config('../')
+var geodist = require('geodist');
 var app = express();
-distance.apiKey = process.env.GOOGLE_KEY;
 
 
 router.route('/').post(function (req, res) {
@@ -63,7 +61,18 @@ router.route('/:locality/query').post(function (req, res) {
     var resOptions = resSearch(locality);
     request(resOptions)
         .then(function (body) {
-            res.send(body);
+            var resDistList = [];
+            for(var prop in body){
+                resDistList.push({
+                   id: body[prop].res_id,
+                    dist: geodist({lat: lat, lon: lng}, {lat: body[prop].res_lat, lon: body[prop].res_long}, {exact: true, unit: 'km'})
+                });
+            }
+            resDistList.sort(function (a,b) {
+                var x = a.dist < b.dist ? -1 : 1;
+                return x;
+            });
+            res.send(resDistList);
         })
         .catch(function (err) {
             console.log(err);

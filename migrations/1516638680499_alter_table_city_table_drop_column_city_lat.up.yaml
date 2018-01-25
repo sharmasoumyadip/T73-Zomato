@@ -1,3 +1,0 @@
-- args:
-    sql: ALTER TABLE "city_table" DROP COLUMN "city_lat"
-  type: run_sql

@@ -1,4 +1,0 @@
-- args:
-    sql: ALTER TABLE "res_table" ADD FOREIGN KEY ("city") REFERENCES "city_table"
-      ("city")
-  type: run_sql

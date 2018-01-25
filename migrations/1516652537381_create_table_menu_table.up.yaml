@@ -1,7 +1,0 @@
-- args:
-    sql: CREATE TABLE "menu_table"("res_id" integer NOT NULL, "photo_url" text NOT
-      NULL, PRIMARY KEY ("res_id") )
-  type: run_sql
-- args:
-    name: menu_table
-  type: add_existing_table_or_view

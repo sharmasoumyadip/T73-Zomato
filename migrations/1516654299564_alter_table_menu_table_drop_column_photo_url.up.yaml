@@ -1,3 +1,0 @@
-- args:
-    sql: ALTER TABLE "menu_table" DROP COLUMN "photo_url"
-  type: run_sql

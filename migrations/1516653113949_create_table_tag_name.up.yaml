@@ -1,6 +1,0 @@
-- args:
-    sql: CREATE TABLE "tag_name"("tag" text NOT NULL, PRIMARY KEY ("tag") )
-  type: run_sql
-- args:
-    name: tag_name
-  type: add_existing_table_or_view
