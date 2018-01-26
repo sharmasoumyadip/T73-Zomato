@@ -3,7 +3,7 @@ module.exports = function (locality) {
         body: {
             "type": "select",
             "args": {
-                "table": "city_table",
+                "table": "ciry_table_index",
                 "columns": [
                     "*"
                 ],
