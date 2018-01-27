@@ -55,6 +55,7 @@ router.route('/:locality/').get(function (req, res) {
                                 var review = 0;
                                 var reviewers = 0;
                                 var review_texts = [];
+                                var review_ovr;
                                 var images = [];
                                 var menu = [];
                                 for (var i in cusine_json) {
@@ -77,10 +78,10 @@ router.route('/:locality/').get(function (req, res) {
                                 }
                                 if(reviewers !== 0){
                                     review = review/reviewers;
-                                    review_texts.push({
+                                    review_ovr = {
                                         avg_rev: review,
                                         reviewers: reviewers
-                                    });
+                                    };
                                 }
                                 if(reviewers === 0){
                                     review_texts = 'No Reviews Yet';
@@ -91,14 +92,11 @@ router.route('/:locality/').get(function (req, res) {
                                 for(var i in menu_json){
                                     menu.push('https://filestore.bodybuilder89.hasura-app.io/v1/file/'+ menu_json[i].photo_id);
                                 }
-
-                                var array = [{
-                                    cuisines: cuisine,
-                                    reviews: review_texts,
-                                    img_url: images,
-                                    menu_url: menu
-                                }];
-                                res_json = res_json.concat(array);
+                                res_json[0].cuisines = cuisine;
+                                res_json[0].reviews = review_texts;
+                                res_json[0].review_ovr = review_ovr;
+                                res_json[0].img_url = images;
+                                res_json[0].menu_url = menu;
                                 res.send(res_json);
                             })
                             .catch(function (err) {
