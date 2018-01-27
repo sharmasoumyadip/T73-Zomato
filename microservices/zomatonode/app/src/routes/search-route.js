@@ -27,7 +27,7 @@ router.route('/').post(function (req, res) {
             res.redirect(307,'/search/'+locality);
         })
         .catch(function (err) {
-            res.send("OOPS! Something Went Wrong");
+            res.send("Something Went Wrong");
         });
 
 
@@ -46,7 +46,7 @@ router.route('/:locality').post(function (req, res) {
            }
        })
        .catch(function (err) {
-           res.send("OOPS! Something Went Wrong");
+           res.send("Something Went Wrong");
        })
 });
 router.route('/:locality/query').post(function (req, res) {
@@ -148,17 +148,17 @@ router.route('/:locality/query').post(function (req, res) {
                                 }
                             })
                             .catch(function (err) {
-                                res.send('Something Error Happened!');
+                                res.send('Something Went Wrong');
                             })
 
 
                     })
                     .catch(function (err) {
-                        res.send("Something Error Happened");
+                        res.send("Something Went Wrong");
                     })
             })
             .catch(function (err) {
-                res.send("Something Error Happened");
+                res.send("Something Went Wrong");
             })
     }
 
@@ -218,7 +218,7 @@ router.route('/:locality/all').post(function(req, res) {
                     }
                     res.send(list);
             }).catch(function (err) {
-                res.send("OOPS! Something Went Wrong");
+                res.send("Something Went Wrong");
             });
         });
 });

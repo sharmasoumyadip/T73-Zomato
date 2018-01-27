@@ -26,6 +26,7 @@ app.get('/', function (req,res) {
     res.send("Hello")
 });
 app.use('/search', require('./routes/search-route'));
+app.use('/restaurant', require('./routes/restaurant'));
 
 app.listen(app.get('port'), function () {
     console.log("APP RUNNING ON " + app.get('port'));
