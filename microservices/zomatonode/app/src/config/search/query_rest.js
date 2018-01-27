@@ -1,12 +1,10 @@
 require('dotenv').config('../../');
 module.exports = function (table_name,orArray,comp) {
-    var body = ''
-    console.log(orArray.length);
+    var body = '';
     for(var prop in orArray){
         body = body+orArray[prop].trim()+'|';
     }
     body = body.slice(0, -1);
-    console.log(body);
 
     options = {
         url: 'https://data.bodybuilder89.hasura-app.io/v1/query',

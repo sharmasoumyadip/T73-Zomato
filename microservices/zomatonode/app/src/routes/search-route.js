@@ -58,62 +58,109 @@ router.route('/:locality/query').post(function (req, res) {
     if(!query){
         res.redirect(307,'/search/'+locality+'/all');
     }
-    query = query.match(/\S+\s*/g);
-    var reqOptions = configCheckCity(locality);
-    request(reqOptions)
-        .then(function (body) {
-            var rest = body[0].res_table;
-            var cusine = body[0].cuisine_tbale;
-            var rev = body[0].review_table;
-            var tags = body[0].tag_table;
-            var reqOptions =[configSQLRest(rest,query,'res_name'), configSQLRest(cusine, query, 'cuisine'), configSQLRest(tags, query, 'tag')];
-            Promise.map(reqOptions, function (obj) {
-                return request(obj)
-                    .then(function(body) {
-                        return body;
+    else {
+        query = query.match(/\S+\s*/g);
+        var reqOptions = configCheckCity(locality);
+        request(reqOptions)
+            .then(function (body) {
+                var rest = body[0].res_table;
+                var cusine = body[0].cuisine_tbale;
+                var rev = body[0].review_table;
+                var tags = body[0].tag_table;
+                var reqOptions = [configSQLRest(rest, query, 'res_name'), configSQLRest(cusine, query, 'cuisine'), configSQLRest(tags, query, 'tag')];
+                Promise.map(reqOptions, function (obj) {
+                    return request(obj)
+                        .then(function (body) {
+                            return body;
+                        })
+                })
+                    .then(function (body) {
+                        for (var i in body) {
+                            if (body[i].result[1][0] === 'NULL') {
+                                body[i].result[1][0] = {}
+                            }
+                            else {
+                                body[i].result[1][0] = JSON.parse(body[i].result[1][0]);
+                            }
+                        }
+                        var rest_resp = body[0].result[1][0];
+                        var cus_resp = body[1].result[1][0];
+                        var tag_resp = body[2].result[1][0];
+                        var id_arr = [];
+                        for (var i in cus_resp) {
+                            id_arr.push(cus_resp[i].res_id);
+                        }
+                        for (var i in tag_resp) {
+                            id_arr.push(tag_resp[i].res_id);
+                        }
+                        for (var i in rest_resp) {
+                            id_arr.push(rest_resp[i].res_id);
+                        }
+                        var reqOptions = [configResById(rest, id_arr), configResById(cusine, id_arr), configResById(rev, id_arr)];
+                        Promise.map(reqOptions, function (obj) {
+                            return request(obj)
+                                .then(function (body) {
+                                    return body;
+                                })
+                        })
+                            .then(function (body) {
+                                var res_json = body[0];
+                                var cusine_json = body[1];
+                                var rev_json = body[2];
+                                var list = [];
+                                for(var prop in res_json){
+                                    var cuisine =[];
+                                    var review = 0;
+                                    var reviewers =0;
+                                    for(var key in cusine_json){
+                                        if(res_json[prop].res_id === cusine_json[key].res_id){
+                                            cuisine.push(cusine_json[key].cuisine);
+                                        }
+                                    }
+                                    for(var revs in rev_json){
+                                        if(res_json[prop].res_id === rev_json[revs].res_id){
+                                            review = review + rev_json[revs].stars;
+                                            reviewers ++;
+                                        }
+                                    }
+                                    if(reviewers !== 0){
+                                        review = review/reviewers;
+                                    }
+                                    if(reviewers === 0){
+                                        review = 'No Reviews Yet';
+                                    }
+                                    list.push({
+                                        id: res_json[prop].res_id,
+                                        name: res_json[prop].res_name,
+                                        add: res_json[prop].res_add,
+                                        city: locality,
+                                        rev: review,
+                                        cuisinie: cuisine,
+                                        dist: geodist({lat: lat, lon: lng}, {lat: res_json[prop].res_lat, lon: res_json[prop].res_lng}, {exact: true, unit: 'km'})
+
+                                    })
+                                }
+                                if(!list.length){
+                                    res.send('No such restaurant found in '+ locality);
+                                }
+                                else {
+                                    res.send(list);
+                                }
+                            })
+                            .catch(function (err) {
+                                res.send('Something Error Happened!');
+                            })
+
+
+                    })
+                    .catch(function (err) {
+                        res.send("Something Error Happened");
                     })
             })
-                .then(function (body) {
-                    for (var i in body){
-                        if( body[i].result[1][0] === 'NULL'){
-                            body[i].result[1][0] ={}
-                        }
-                        else {
-                            body[i].result[1][0] = JSON.parse( body[i].result[1][0]);
-                        }
-                    }
-                    var rest_resp = body[0].result[1][0];
-                    var cus_resp = body[1].result[1][0];
-                    var tag_resp = body[2].result[1][0];
-                    var id_arr = [];
-                    for(var i in cus_resp){
-                        id_arr.push(cus_resp[i].res_id);
-                    }
-                    for(var i in tag_resp){
-                        id_arr.push(tag_resp[i].res_id);
-                    }
-                    for(var i in rest_resp){
-                        id_arr.push(rest_resp[i].res_id);
-                    }
-                    var reqOptions = configResById(rest, id_arr);
-                    request(reqOptions)
-                        .then(function (body) {
-                            if(!body.length){
-                                res.send('We Could not Find your query in '+ locality);
-                            }
-                            res.send(body);
-                        })
-                        .catch(function (err) {
-                            res.send("Something Error Happened");
-                        })
-                })
-                .catch(function (er) {
-                    res.send("Something Error Happened");
-                })
-        })
-        .catch(function (err) {
-            res.send("Something Error Happened");
-        })
+            .catch(function (err) {
+                res.send("Something Error Happened");
+            })
+    }
 
 });
 router.route('/:locality/all').post(function(req, res) {
