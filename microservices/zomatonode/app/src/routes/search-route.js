@@ -4,14 +4,16 @@ var request = require('request-promise');
 var router = express.Router();
 var geodist = require('geodist');
 var app = express();
-
-
+var configGeoCode = require('../config/search/reversegeocode');
+var configCheckCity = require('../config/search/check-city');
+var configSQLRest= require('../config/search/query_rest');
+var configSearchByCity = require('../config/search/search_by_city');
+var configResById = require('../config/search/res-by-id');
 router.route('/').post(function (req, res) {
     var lat = req.body.lat;
     var lng = req.body.lng;
     var query = req.body.query;
-    var config = require('../config/search/reversegeocode')
-    var reqOptions = config(lat, lng)
+    var reqOptions = configGeoCode(lat, lng);
     request(reqOptions)
         .then(function (body) {
             body = body.results[0].address_components
@@ -25,7 +27,7 @@ router.route('/').post(function (req, res) {
             res.redirect(307,'/search/'+locality);
         })
         .catch(function (err) {
-            console.log(errr)
+            res.send("OOPS! Something Went Wrong");
         });
 
 
@@ -33,8 +35,7 @@ router.route('/').post(function (req, res) {
 
 router.route('/:locality').post(function (req, res) {
    var locality = req.params.locality.toLowerCase();
-   var config = require('../config/search/check-city');
-   var reqOptions = config(locality);
+   var reqOptions = configCheckCity(locality);
    request(reqOptions)
        .then(function (body) {
            if(body.length === 0){
@@ -45,7 +46,7 @@ router.route('/:locality').post(function (req, res) {
            }
        })
        .catch(function (err) {
-           console.error(err);
+           res.send("OOPS! Something Went Wrong");
        })
 });
 router.route('/:locality/query').post(function (req, res) {
@@ -57,40 +58,75 @@ router.route('/:locality/query').post(function (req, res) {
     if(!query){
         res.redirect(307,'/search/'+locality+'/all');
     }
-    /*var resSearch =require ('../config/search/res-search');
-    var resOptions = resSearch(locality);
-    request(resOptions)
-        .then(function (body) {
-            var resDistList = [];
-            for(var prop in body){
-                resDistList.push({
-                   id: body[prop].res_id,
-                    dist: geodist({lat: lat, lon: lng}, {lat: body[prop].res_lat, lon: body[prop].res_long}, {exact: true, unit: 'km'})
-                });
-            }
-            resDistList.sort(function (a,b) {
-                var x = a.dist < b.dist ? -1 : 1;
-                return x;
-            });
-            res.send(resDistList);
-        })
-        .catch(function (err) {
-            console.log(err);
-        }) */
-});
-router.route('/:locality/all').post(function(req, res) {
-    var lat = req.body.lat;
-    var lng = req.body.lng;
-    var locality = req.params.locality.toLowerCase();
-    var config = require('../config/search/check-city');
-    var reqOptions = config(locality);
+    query = query.match(/\S+\s*/g);
+    var reqOptions = configCheckCity(locality);
     request(reqOptions)
         .then(function (body) {
             var rest = body[0].res_table;
             var cusine = body[0].cuisine_tbale;
             var rev = body[0].review_table;
-            var reqOptions = require('../config/search/search_by_city');
-            var request_options = [reqOptions(rest), reqOptions(cusine),  reqOptions(rev)];
+            var tags = body[0].tag_table;
+            var reqOptions =[configSQLRest(rest,query,'res_name'), configSQLRest(cusine, query, 'cuisine'), configSQLRest(tags, query, 'tag')];
+            Promise.map(reqOptions, function (obj) {
+                return request(obj)
+                    .then(function(body) {
+                        return body;
+                    })
+            })
+                .then(function (body) {
+                    for (var i in body){
+                        if( body[i].result[1][0] === 'NULL'){
+                            body[i].result[1][0] ={}
+                        }
+                        else {
+                            body[i].result[1][0] = JSON.parse( body[i].result[1][0]);
+                        }
+                    }
+                    var rest_resp = body[0].result[1][0];
+                    var cus_resp = body[1].result[1][0];
+                    var tag_resp = body[2].result[1][0];
+                    var id_arr = [];
+                    for(var i in cus_resp){
+                        id_arr.push(cus_resp[i].res_id);
+                    }
+                    for(var i in tag_resp){
+                        id_arr.push(tag_resp[i].res_id);
+                    }
+                    for(var i in rest_resp){
+                        id_arr.push(rest_resp[i].res_id);
+                    }
+                    var reqOptions = configResById(rest, id_arr);
+                    request(reqOptions)
+                        .then(function (body) {
+                            if(!body.length){
+                                res.send('We Could not Find your query in '+ locality);
+                            }
+                            res.send(body);
+                        })
+                        .catch(function (err) {
+                            res.send("Something Error Happened");
+                        })
+                })
+                .catch(function (er) {
+                    res.send("Something Error Happened");
+                })
+        })
+        .catch(function (err) {
+            res.send("Something Error Happened");
+        })
+
+});
+router.route('/:locality/all').post(function(req, res) {
+    var lat = req.body.lat;
+    var lng = req.body.lng;
+    var locality = req.params.locality.toLowerCase();
+    var reqOptions = configCheckCity(locality);
+    request(reqOptions)
+        .then(function (body) {
+            var rest = body[0].res_table;
+            var cusine = body[0].cuisine_tbale;
+            var rev = body[0].review_table;
+            var request_options = [configSearchByCity(rest), configSearchByCity(cusine),  configSearchByCity(rev)];
             Promise.map(request_options, function (obj) {
                 return request(obj)
                     .then(function(body) {
