@@ -8,6 +8,7 @@ var app = express();
 var searchRoutes =  require('./routes/search-route');
 var restaurant = require('./routes/restaurant');
 var userRoutes = require('./routes/profile-routes');
+var review = require('./routes/review');
 require('request-debug')(request);
 app.use(morgan('dev'));
 
@@ -30,6 +31,7 @@ app.get('/', function (req,res) {
 app.use('/search', searchRoutes);
 app.use('/restaurant', restaurant);
 app.use('/profile', userRoutes);
+app.use('/review',review);
 
 app.listen(app.get('port'), function () {
     console.log("APP RUNNING ON " + app.get('port'));

@@ -65,11 +65,13 @@ router.route('/:locality/').get(function (req, res) {
                                     for(var j in user_json){
                                         if(user_json[j].hasura_id === rev_json[i].hasura_id){
                                             review_texts.push({
+                                                rev_id: rev_json[i].review_id,
                                                 user_id: user_json[j].hasura_id,
                                                 name: user_json[j].name,
                                                 stars: rev_json[i].stars,
                                                 text: rev_json[i].review_text,
-                                                date: rev_json[i].date
+                                                date: rev_json[i].date,
+                                                table: rev
                                             });
                                         }
                                     }
