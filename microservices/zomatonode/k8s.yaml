@@ -33,6 +33,16 @@ items:
                 secretKeyRef:
                   name: hasura-secrets
                   key: my.facebook.client_id
+            - name: GOOGLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hasura-secrets
+                  key: auth.google.key
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hasura-secrets
+                  key: admin.token
           ports:
           - containerPort: 8000
             protocol: TCP
