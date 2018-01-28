@@ -46,10 +46,15 @@ router.route('/delete').post(function (req,res) {
             var id = body.hasura_id;
             request(deleteRev(table,rev_id,req.cookies.bodybuilder89))
                 .then(function (body) {
-                    res.send(body);
+                    if(body.affected_rows === 0){
+                        res.send('Not Authorized');
+                    }
+                    else {
+                        res.send('Success');
+                    }
                 })
                 .catch(function (err) {
-                    res.send(err);
+                    res.send('Something Went Wrong');
                 })
 
         })
