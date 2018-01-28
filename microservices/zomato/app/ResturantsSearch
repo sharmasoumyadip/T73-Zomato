@@ -1,0 +1,27 @@
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+class search extends Component {
+constructor(props){
+  super(props);
+  this.state={
+  location:''
+  }
+ }
+render() {
+    return (
+      <div>
+        <MuiThemeProvider>
+          <div>
+          <AppBar
+             title="search"
+           />
+           <TextField
+             hintText="Enter your location"
+             floatingLabelText="location"
+             onChange = {(event,newValue) => this.setState({username:newValue})}
+             />
+           <br/>
+ <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+ export default search;
