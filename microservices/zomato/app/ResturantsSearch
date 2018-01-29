@@ -6,7 +6,8 @@ class search extends Component {
 constructor(props){
   super(props);
   this.state={
-  location:''
+  location:'',
+  restaurants:''
   }
  }
 render() {
@@ -20,8 +21,18 @@ render() {
            <TextField
              hintText="Enter your location"
              floatingLabelText="location"
-             onChange = {(event,newValue) => this.setState({username:newValue})}
+             onChange = {(event,newValue) => this.setState({location:newValue})}
              />
+             <br/>
+           <TextField
+             hintText="available restaurants"
+             floatingLabelText="restaurants"
+             onChange = {(event,newValue) => this.setState({restaurants:newValue})}
+             />
+              <br/>
            <br/>
  <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
- export default search;
+)
+}
+}
+ export default search
