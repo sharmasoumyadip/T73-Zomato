@@ -1,5 +1,5 @@
 import React from 'react';
-class Image extends React.Component 
+class Image extends React.Component  //consists of array of images
 {
 constructor(props) 
 {
@@ -23,9 +23,8 @@ return
 <img src={imgs[pointer]} onClick={this.handleClick} />
 </div>
 );
-}
-}
-class ImageSet extends React.Component
+}}
+class ImageSet extends React.Component    //a subset of images for previous class passed
 {
 constructor() {
 super();
